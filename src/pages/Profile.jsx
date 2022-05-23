@@ -23,14 +23,6 @@ function Profile() {
     navigate('/');
   };
 
-  // const editUser = () => {
-  //   debugger;
-  //   setUpdateUser(!updateUser);
-  //   if (updateUser) {
-  //     onSubmit();
-  //   }
-  // };
-
   const editUser = (e) => {
     setFormData((prevState) => ({
       ...prevState,

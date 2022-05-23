@@ -7,7 +7,6 @@ function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const isNavItemActive = (route) => {
-    debugger;
     return route === location.pathname;
   };
 

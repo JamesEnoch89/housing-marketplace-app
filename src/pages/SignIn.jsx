@@ -24,7 +24,6 @@ function SignIn() {
   };
 
   const onSubmit = async (e) => {
-    debugger;
     e.preventDefault();
 
     try {
