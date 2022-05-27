@@ -34,20 +34,48 @@ function Category() {
 
         const queryResults = await getDocs(q);
         queryResults.forEach((doc) => {
-          const data = doc.data();
-          console.log(doc.data());
-          listings.push(data);
+          listings.push({
+            id: doc.id,
+            data: doc.data(),
+          });
         });
-      } catch (error) {
-        console.log(error);
 
+        setListings(listings);
+        setLoading(false);
+      } catch (error) {
         toast.error('Error fetching listings.');
       }
     };
     fetchListings();
-  });
+  }, [params.categoryName]);
 
-  return <div>Category</div>;
+  return (
+    <div className="category">
+      <header>
+        <p className="pageHeader">
+          {params.categoryName === 'rent'
+            ? 'Places For Rent'
+            : 'Places For Sale'}
+        </p>
+      </header>
+
+      {loading ? (
+        <Spinner />
+      ) : listings && listings.length > 0 ? (
+        <>
+          <main>
+            <ul className="categoryListings">
+              {listings.map((listing) => (
+                <h3 key={listing.id}>{listing.data.name}</h3>
+              ))}
+            </ul>
+          </main>
+        </>
+      ) : (
+        <p>No Listings For {params.categoryName}</p>
+      )}
+    </div>
+  );
 }
 
 export default Category;
