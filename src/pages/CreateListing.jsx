@@ -199,7 +199,7 @@ function CreateListing(props) {
             </button>
           </div>
 
-          <label htmlFor="" className="formLabel">
+          <label htmlFor="address" className="formLabel">
             Address
           </label>
           <textarea
@@ -209,6 +209,116 @@ function CreateListing(props) {
             onChange={onMutate}
             className="formInputAddress"
             required></textarea>
+
+          {!geolocationEnabled && (
+            <div className="formLatLng flex">
+              <div>
+                <label htmlFor="latitude" className="formLabel">
+                  Latitude
+                </label>
+                <input
+                  type="number"
+                  className="formInputSmall"
+                  id="latitude"
+                  value={latitude}
+                  onChange={onMutate}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="longitude" className="formLabel">
+                  Longitude
+                </label>
+                <input
+                  type="number"
+                  className="formInputSmall"
+                  id="longitude"
+                  value={longitude}
+                  onChange={onMutate}
+                  required
+                />
+              </div>
+            </div>
+          )}
+
+          <label htmlFor="offer" className="formLabel">
+            Offer
+          </label>
+          <div className="formButtons">
+            <button
+              className={offer ? 'formButtonActive' : 'formButton'}
+              type="button"
+              id="offer"
+              value={true}
+              onChange={onMutate}>
+              Yes
+            </button>
+            <button
+              className={
+                !offer && offer != null ? 'formButtonActive' : 'formButton'
+              }
+              type="button"
+              id="offer"
+              value={false}
+              onChange={onMutate}>
+              No
+            </button>
+          </div>
+          <label htmlFor="regular price" className="formInputLabel">
+            Regular Price
+          </label>
+          <div className="formPriceDiv">
+            <input
+              type="number"
+              className="formInputSmall"
+              id="regularPrice"
+              value={regularPrice}
+              onChange={onMutate}
+              min="50"
+              max="750000000"
+              required
+            />
+            {type === 'rent' && <p className="formPriceText">$ / Month</p>}
+          </div>
+          {offer && (
+            <>
+              <label htmlFor="discounted price" className="formInputLabel">
+                Discounted Price
+              </label>
+              <div className="formPriceDiv">
+                <input
+                  type="number"
+                  className="formInputSmall"
+                  id="discountedPrice"
+                  value={discountedPrice}
+                  onChange={onMutate}
+                  min="50"
+                  max="750000000"
+                  required
+                />
+                {type === 'rent' && <p className="formPriceText">$ / Month</p>}
+              </div>
+            </>
+          )}
+          <label htmlFor="" className="formLabel">
+            Images
+          </label>
+          <p className="imagesInfo">
+            The first image will be the cover (max 6).
+          </p>
+          <input
+            type="file"
+            className="formInputFile"
+            id="images"
+            onChange={onMutate}
+            max="6"
+            accept=".jpg, .jpeg, .png"
+            multiple
+            required
+          />
+          <button className="primaryButton createListingButton" type="submit">
+            Create Listing
+          </button>
         </form>
       </main>
     </div>
