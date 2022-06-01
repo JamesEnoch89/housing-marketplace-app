@@ -60,10 +60,35 @@ function CreateListing(props) {
 
   const onSubmit = (event) => {
     event.preventDefault();
+    console.log(listingData);
   };
 
   const onMutate = (event) => {
-    console.log('mutate');
+    debugger;
+    let isBoolean = null;
+
+    if (event.target.value === 'true') {
+      isBoolean = true;
+    }
+    if (event.target.value === 'false') {
+      isBoolean = false;
+    }
+
+    // update files
+    if (event.target.files) {
+      setListingData((prevState) => ({
+        ...prevState,
+        images: event.target.files,
+      }));
+    }
+
+    // update bools/text/numbers
+    if (!event.target.files) {
+      setListingData((prevState) => ({
+        ...prevState,
+        [event.target.id]: isBoolean ?? event.target.value,
+      }));
+    }
   };
 
   if (loading) {
@@ -172,7 +197,7 @@ function CreateListing(props) {
             </button>
           </div>
 
-          <label htmlFor="" className="formLabel">
+          <label htmlFor="furnished" className="formLabel">
             Furnished
           </label>
           <div className="formButtons">
@@ -250,21 +275,23 @@ function CreateListing(props) {
               type="button"
               id="offer"
               value={true}
-              onChange={onMutate}>
+              onClick={onMutate}>
               Yes
             </button>
+
             <button
               className={
-                !offer && offer != null ? 'formButtonActive' : 'formButton'
+                !offer && offer !== null ? 'formButtonActive' : 'formButton'
               }
               type="button"
               id="offer"
               value={false}
-              onChange={onMutate}>
+              onClick={onMutate}>
               No
             </button>
           </div>
-          <label htmlFor="regular price" className="formInputLabel">
+
+          <label htmlFor="regular price" className="formLabel">
             Regular Price
           </label>
           <div className="formPriceDiv">
@@ -282,7 +309,7 @@ function CreateListing(props) {
           </div>
           {offer && (
             <>
-              <label htmlFor="discounted price" className="formInputLabel">
+              <label htmlFor="discounted price" className="formLabel">
                 Discounted Price
               </label>
               <div className="formPriceDiv">
