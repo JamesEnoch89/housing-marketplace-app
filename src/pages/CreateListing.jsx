@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../components/Spinner';
+import { toast } from 'react-toastify';
 
 function CreateListing(props) {
   const [geolocationEnabled, setGeolocationEnabled] = useState(true);
@@ -58,22 +59,72 @@ function CreateListing(props) {
     };
   }, [isMounted]);
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-    console.log(listingData);
+    setLoading(true);
+    handleFormValidation();
+
+    let geolocation = {};
+    let location;
+
+    if (geolocationEnabled) {
+      //google resp
+      const noResultsCode = 'ZERO_RESULTS';
+      const route = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`;
+      const response = await fetch(route);
+      const data = await response.json();
+
+      geolocation.lat = data.results[0]?.geometry.location.lat ?? 0;
+      geolocation.long = data.results[0]?.geometry.location.lng ?? 0;
+
+      location =
+        data.status === noResultsCode
+          ? undefined
+          : data.results[0]?.formatted_address;
+
+      if (location === undefined) {
+        setLoading(false);
+        toast.error('Please enter a valid address');
+        return;
+      }
+    } else {
+      geolocation.lat = latitude;
+      geolocation.long = longitude;
+      location = address;
+    }
+
+    setLoading(false);
+  };
+
+  const handleFormValidation = () => {
+    if (discountedPrice >= regularPrice) {
+      setLoading(false);
+      toast.error(
+        'Error: Discounted price must be less than the regular price'
+      );
+      return;
+    }
+
+    if (images > 6) {
+      setLoading(false);
+      toast.error('Error: Maximum number of images is 6');
+      return;
+    }
   };
 
   const onMutate = (event) => {
-    debugger;
     let isBoolean = null;
-
     if (event.target.value === 'true') {
       isBoolean = true;
     }
     if (event.target.value === 'false') {
       isBoolean = false;
     }
+    updateFiles(event);
+    updateFields(event, isBoolean);
+  };
 
+  const updateFiles = (event) => {
     // update files
     if (event.target.files) {
       setListingData((prevState) => ({
@@ -81,7 +132,9 @@ function CreateListing(props) {
         images: event.target.files,
       }));
     }
+  };
 
+  const updateFields = (event, isBoolean) => {
     // update bools/text/numbers
     if (!event.target.files) {
       setListingData((prevState) => ({
@@ -339,6 +392,7 @@ function CreateListing(props) {
             id="images"
             onChange={onMutate}
             max="6"
+            min="0"
             accept=".jpg, .jpeg, .png"
             multiple
             required
