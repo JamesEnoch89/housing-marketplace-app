@@ -7,6 +7,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from 'firebase/storage';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase.config';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
@@ -147,9 +148,25 @@ function CreateListing(props) {
       toast.error('Error uploading image');
     });
 
-    console.log(imageUrls);
+    const formDataCopy = {
+      ...listingData,
+      imageUrls,
+      geolocation,
+      timeStamp: serverTimestamp(),
+    };
 
+    // delete fields not stored here
+    // images handled by image urls
+    // address handled by location
+    delete formDataCopy.images;
+    delete formDataCopy.address;
+    location && (formDataCopy.location = location);
+    !formDataCopy.offer && delete formDataCopy.discountedPrice;
+
+    const docRef = await addDoc(collection(db, 'Listings'), formDataCopy);
     setLoading(false);
+    toast.success('Listing saved successfully');
+    navigate(`/category/${formDataCopy.type}/${docRef.id}`);
   };
 
   const handleFormValidation = () => {
