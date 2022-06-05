@@ -328,8 +328,10 @@ button {
 
 .swiperSlideDiv {
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 50%;
+  height: 90%;
+  margin: 5px;
+  background-position: center;
 }
 
 .swiperSlideImg {

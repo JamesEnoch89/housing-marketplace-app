@@ -103,6 +103,7 @@ function CreateListing(props) {
     }
 
     const storeImage = async (image) => {
+      debugger;
       return new Promise((resolve, reject) => {
         const storage = getStorage();
         const fileName = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
