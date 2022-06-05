@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { getDoc, doc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { db } from '../firebase.config';
@@ -67,6 +68,12 @@ function Listing() {
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
           </p>
           <p className="listingLocation">{listing.location}</p>
+          <p>
+            <img
+              src={listing.imageUrls[0]}
+              alt={listing.name}
+              className="categoryListingImg"></img>
+          </p>
           <p className="listingType">
             For {listing.type === 'rent' ? 'Rent' : 'Sale'}
           </p>
@@ -95,7 +102,23 @@ function Listing() {
           </ul>
 
           <p className="listingLocationTitle">Location</p>
-          {/* map will go here */}
+
+          <div className="leafletContainer">
+            <MapContainer
+              style={{ height: '100%', width: '60%' }}
+              center={[listing.geolocation.lat, listing.geolocation.long]}
+              zoom={13}
+              scrollWheelZoom={false}>
+              <TileLayer
+                attribution='&copy; <a href="http:osm.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png"></TileLayer>
+
+              <Marker
+                position={[listing.geolocation.lat, listing.geolocation.long]}>
+                <Popup>{listing.location}</Popup>
+              </Marker>
+            </MapContainer>
+          </div>
 
           {auth.currentUser?.uid === listing.userRef && (
             <Link
