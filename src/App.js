@@ -8,6 +8,7 @@ import Category from './pages/Category';
 import Profile from './pages/Profile';
 import CreateListing from './pages/CreateListing';
 import Listing from './pages/Listing';
+import ContactLandlord from './pages/ContactLandlord';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Navbar from './components/Navbar';
@@ -29,6 +30,7 @@ function App() {
             path="/category/:categoryName/:listingId"
             element={<Listing />}
           />
+          <Route path="/contact/:landlordId" element={<ContactLandlord />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />

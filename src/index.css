@@ -53,7 +53,8 @@ button {
 
 .textarea {
   padding: 1rem 1.5rem;
-  height: 300px;
+  height: 200px;
+  width: 50%;
   border-radius: 1rem;
 }
 
@@ -65,8 +66,7 @@ button {
   color: #ffffff;
   font-weight: 600;
   font-size: 1.25rem;
-  max-width: 40%;
-  min-width: 30%;
+  width: 30%;
   margin: 0 auto;
   display: flex;
   align-items: center;
