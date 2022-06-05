@@ -65,7 +65,7 @@ button {
   color: #ffffff;
   font-weight: 600;
   font-size: 1.25rem;
-  max-width: 80%;
+  max-width: 40%;
   min-width: 30%;
   margin: 0 auto;
   display: flex;
@@ -571,6 +571,7 @@ button {
   border-radius: 1rem;
   padding: 0.5rem 1rem;
   font-weight: 600;
+  color: #00cc66;
 }
 
 .contactListingName {
