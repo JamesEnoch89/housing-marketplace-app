@@ -100,7 +100,6 @@ function CreateListing(props) {
     } else {
       geolocation.lat = latitude;
       geolocation.long = longitude;
-      location = address;
     }
 
     const storeImage = async (image) => {
@@ -158,9 +157,9 @@ function CreateListing(props) {
     // delete fields not stored here
     // images handled by image urls
     // address handled by location
+    formDataCopy.location = address;
     delete formDataCopy.images;
     delete formDataCopy.address;
-    location && (formDataCopy.location = location);
     !formDataCopy.offer && delete formDataCopy.discountedPrice;
 
     const docRef = await addDoc(collection(db, 'Listings'), formDataCopy);
