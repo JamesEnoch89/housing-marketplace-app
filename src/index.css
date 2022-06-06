@@ -425,7 +425,7 @@ button {
 }
 @media (min-width: 1024px) {
   .categoryListingImg {
-    width: 40%;
+    min-width: 40%;
     height: 217px;
   }
 }
