@@ -103,7 +103,6 @@ function CreateListing(props) {
     }
 
     const storeImage = async (image) => {
-      debugger;
       return new Promise((resolve, reject) => {
         const storage = getStorage();
         const fileName = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
@@ -124,6 +123,8 @@ function CreateListing(props) {
                 break;
               case 'running':
                 console.log('Upload is running');
+                break;
+              default:
                 break;
             }
           },

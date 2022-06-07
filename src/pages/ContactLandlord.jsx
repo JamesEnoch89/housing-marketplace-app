@@ -3,18 +3,17 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase.config';
 import { toast } from 'react-toastify';
-import { connectStorageEmulator } from '@firebase/storage';
 
 function ContactLandlord(props) {
   const [message, setMessage] = useState('');
   const [landlord, setLandlord] = useState(null);
+  // eslint-disable-next-line
   const [searchParams, setSearchParams] = useSearchParams();
 
   const params = useParams();
 
   useEffect(() => {
     const getLandLord = async () => {
-      debugger;
       const docRef = doc(db, 'users', params.landlordId);
       const docSnap = await getDoc(docRef);
 

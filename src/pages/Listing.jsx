@@ -22,14 +22,11 @@ function Listing() {
 
   useEffect(() => {
     const fetchListing = async () => {
-      debugger;
       const docRef = doc(db, 'Listings', params.listingId);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        console.log(docSnap.data());
         setListing(docSnap.data());
-        // console.log(listing);
         setLoading(false);
       }
     };
