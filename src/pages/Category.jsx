@@ -17,7 +17,7 @@ import ListingItem from '../components/ListingItem';
 function Category() {
   const [listings, setListings] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [lastFetchedListing, setLastFetchedListing] = useState(null);
+  // const [lastFetchedListing, setLastFetchedListing] = useState(null);
 
   const params = useParams();
 
@@ -36,8 +36,8 @@ function Category() {
 
         const queryResults = await getDocs(q);
 
-        const lastVisible = queryResults.docs[queryResults.docs.length - 1];
-        setLastFetchedListing(lastVisible);
+        // const lastVisible = queryResults.docs[queryResults.docs.length - 1];
+        // setLastFetchedListing(lastVisible);
 
         queryResults.forEach((doc) => {
           listings.push({
@@ -55,37 +55,37 @@ function Category() {
     fetchListings();
   }, [params.categoryName]);
 
-  const fetchMoreListings = async () => {
-    try {
-      const listings = [];
-      const listingsRef = collection(db, 'Listings');
+  // const fetchMoreListings = async () => {
+  //   try {
+  //     const listings = [];
+  //     const listingsRef = collection(db, 'Listings');
 
-      const q = query(
-        listingsRef,
-        where('type', '==', params.categoryName),
-        orderBy('timeStamp', 'desc'),
-        limit(10),
-        startAfter(lastFetchedListing)
-      );
+  //     const q = query(
+  //       listingsRef,
+  //       where('type', '==', params.categoryName),
+  //       orderBy('timeStamp', 'desc'),
+  //       limit(10),
+  //       startAfter(lastFetchedListing)
+  //     );
 
-      const queryResults = await getDocs(q);
+  //     const queryResults = await getDocs(q);
 
-      const lastVisible = queryResults.docs[queryResults.docs.length - 1];
-      setLastFetchedListing(lastVisible);
+  //     const lastVisible = queryResults.docs[queryResults.docs.length - 1];
+  //     setLastFetchedListing(lastVisible);
 
-      queryResults.forEach((doc) => {
-        listings.push({
-          id: doc.id,
-          data: doc.data(),
-        });
-      });
+  //     queryResults.forEach((doc) => {
+  //       listings.push({
+  //         id: doc.id,
+  //         data: doc.data(),
+  //       });
+  //     });
 
-      setListings((prevState) => [...prevState, ...listings]);
-      setLoading(false);
-    } catch (error) {
-      toast.error('Error fetching listings.');
-    }
-  };
+  //     setListings((prevState) => [...prevState, ...listings]);
+  //     setLoading(false);
+  //   } catch (error) {
+  //     toast.error('Error fetching listings.');
+  //   }
+  // };
 
   return (
     <div className="category">
@@ -111,13 +111,13 @@ function Category() {
               ))}
             </ul>
           </main>
-          <br />
+          {/* <br />
           <br />
           {lastFetchedListing && (
             <p className="loadMore" onClick={fetchMoreListings}>
               Load More
             </p>
-          )}
+          )} */}
         </>
       ) : (
         <p>No Listings For {params.categoryName}</p>

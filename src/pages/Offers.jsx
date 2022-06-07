@@ -17,7 +17,7 @@ import ListingItem from '../components/ListingItem';
 function Offers() {
   const [listings, setListings] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [lastFetchedListing, setLastFetchedListing] = useState(null);
+  // const [lastFetchedListing, setLastFetchedListing] = useState(null);
 
   const params = useParams();
 
@@ -31,13 +31,13 @@ function Offers() {
           listingsRef,
           where('offer', '==', true),
           orderBy('timeStamp', 'desc'),
-          limit(10)
+          limit(25)
         );
 
         const queryResults = await getDocs(q);
 
-        const lastVisible = queryResults.docs[queryResults.docs.length - 1];
-        setLastFetchedListing(lastVisible);
+        // const lastVisible = queryResults.docs[queryResults.docs.length - 1];
+        // setLastFetchedListing(lastVisible);
 
         queryResults.forEach((doc) => {
           listings.push({
@@ -55,37 +55,37 @@ function Offers() {
     fetchListings();
   }, []);
 
-  const fetchMoreListings = async () => {
-    try {
-      const listings = [];
-      const listingsRef = collection(db, 'Listings');
+  // const fetchMoreListings = async () => {
+  //   try {
+  //     const listings = [];
+  //     const listingsRef = collection(db, 'Listings');
 
-      const q = query(
-        listingsRef,
-        where('offer', '==', true),
-        orderBy('timeStamp', 'desc'),
-        limit(10),
-        startAfter(lastFetchedListing)
-      );
+  //     const q = query(
+  //       listingsRef,
+  //       where('offer', '==', true),
+  //       orderBy('timeStamp', 'desc'),
+  //       limit(10),
+  //       startAfter(lastFetchedListing)
+  //     );
 
-      const queryResults = await getDocs(q);
+  //     const queryResults = await getDocs(q);
 
-      const lastVisible = queryResults.docs[queryResults.docs.length - 1];
-      setLastFetchedListing(lastVisible);
+  //     const lastVisible = queryResults.docs[queryResults.docs.length - 1];
+  //     setLastFetchedListing(lastVisible);
 
-      queryResults.forEach((doc) => {
-        listings.push({
-          id: doc.id,
-          data: doc.data(),
-        });
-      });
+  //     queryResults.forEach((doc) => {
+  //       listings.push({
+  //         id: doc.id,
+  //         data: doc.data(),
+  //       });
+  //     });
 
-      setListings((prevState) => [...prevState, ...listings]);
-      setLoading(false);
-    } catch (error) {
-      toast.error('Error fetching listings.');
-    }
-  };
+  //     setListings((prevState) => [...prevState, ...listings]);
+  //     setLoading(false);
+  //   } catch (error) {
+  //     toast.error('Error fetching listings.');
+  //   }
+  // };
 
   return (
     <div className="category">
@@ -107,13 +107,13 @@ function Offers() {
               ))}
             </ul>
           </main>
-          <br />
+          {/* <br />
           <br />
           {lastFetchedListing && (
             <p className="loadMore" onClick={fetchMoreListings}>
               Load More
             </p>
-          )}
+          )} */}
         </>
       ) : (
         <p>There are no current offers</p>

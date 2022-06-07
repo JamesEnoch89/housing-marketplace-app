@@ -81,6 +81,8 @@ function Profile() {
     toast.success('Listing Deleted');
   };
 
+  const onEdit = (listingId) => navigate(`/edit-listing/${listingId}`);
+
   const onSubmit = async () => {
     try {
       if (auth.currentUser.displayName !== name) {
@@ -159,6 +161,7 @@ function Profile() {
                   key={listing.id}
                   listing={listing.data}
                   id={listing.id}
+                  onEdit={() => onEdit(listing.id)}
                   onDelete={() => onDelete(listing.id)}></ListingItem>
               ))}
             </ul>
